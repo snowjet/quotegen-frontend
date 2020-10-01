@@ -1,0 +1,13 @@
+uvicorn
+daiquiri
+python-multipart
+python-dotenv
+requests
+six
+cryptography
+fastapi[all]
+pydantic
+jinja2
+aiofiles
+pydantic
+httpx
