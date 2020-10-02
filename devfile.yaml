@@ -1,12 +1,12 @@
 apiVersion: 1.0.0
 metadata:
-  name: quotegen-
+  name: frontend-
 projects:
-  - name: quotegen-backend
+  - name: quotegen-frontend
     source:
-      location: 'https://github.com/snowjet/demo-quote-gen.git'
+      location: 'https://github.com/snowjet/quotegen-frontend.git'
       type: git
-      branch: sql
+      branch: master
 components:
   - id: ms-python/python/latest
     memoryLimit: 512Mi
@@ -25,49 +25,19 @@ components:
     type: dockerimage
     alias: python
     image: 'quay.io/eclipse/che-python-3.7:nightly'
-  - endpoints:
-      - name: postgres
-        port: 5432
-        attributes:
-          discoverable: 'true'
-          public: 'false'
-    memoryLimit: 512Mi
-    type: dockerimage
-    volumes:
-      - name: pg-storage
-        containerPath: /var/lib/postgresql/data
-    image: registry.redhat.io/rhel8/postgresql-12
-    env:
-      - value: user
-        name: POSTGRESQL_USER
-      - value: postgres
-        name: POSTGRESQL_PASSWORD
-      - value: quotes
-        name: POSTGRESQL_DATABASE
 commands:
   - name: setup deps
     actions:
       - type: exec
         component: python
         command: pip install --user -r requirements.txt
-        workdir: "${CHE_PROJECTS_ROOT}/quotegen-backend/quotegen"
-  - name: run-debug-sqlite
+        workdir: "${CHE_PROJECTS_ROOT}/quotegen-frontend/frontend"
+  - name: run-debug
     actions:
       - type: exec
         component: python
         command: >-
           export LOG_LEVEL="DEBUG" && 
-          export DATABASE_TYPE="sqlite" &&
-          export JSON_QUOTE_PATH="./quotes/quotes.json" && 
           python app.py
-        workdir: "${CHE_PROJECTS_ROOT}/quotegen-backend/quotegen"        
-  - name: run-debug-postgresql
-    actions:
-      - type: exec
-        component: python
-        command: >-
-          export LOG_LEVEL="DEBUG" && 
-          export DATABASE_TYPE="postgresql" && 
-          export JSON_QUOTE_PATH="./quotes/quotes.json" &&           
-          python app.py 
-        workdir: "${CHE_PROJECTS_ROOT}/quotegen-backend/quotegen"
+        workdir: "${CHE_PROJECTS_ROOT}/quotegen-frontend/frontend"      
+
