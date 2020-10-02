@@ -24,11 +24,6 @@ def get_settings():
 
 
 @app.get("/", response_class=HTMLResponse)
-async def home(request: Request, id: str = None):
-    return templates.TemplateResponse("index.html", {"request": request, "id": id})
-
-
-@app.get("/quote", response_class=HTMLResponse)
 async def get_quote(
     request: Request, settings: config.Settings = Depends(get_settings)
 ):
