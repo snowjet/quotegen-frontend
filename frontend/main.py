@@ -9,6 +9,7 @@ from fastapi import Depends, FastAPI
 from core import config
 from core.log import logger
 from crud import quote as quoteCRUD
+from crud import image as imageCRUD
 
 logger.info("Starting App")
 
@@ -27,8 +28,13 @@ def get_settings():
 async def get_quote(
     request: Request, settings: config.Settings = Depends(get_settings)
 ):
-    quote = quoteCRUD.get_quote_simple(url=settings.url_quote_backend)
+    quote = quoteCRUD.get_quote_simple(url=settings.url_quote_backend)    
     logger.debug("Message Recieved: " + str(quote))
+
+    image = None
+    if quote.name is not None:
+        image = imageCRUD.get_image(quote.name)
+
     return templates.TemplateResponse(
-        "index.html", {"request": request, "quote": quote}
+        "index.html", {"request": request, "quote": quote, 'image': image}
     )
