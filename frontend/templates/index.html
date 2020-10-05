@@ -39,7 +39,7 @@
         <h4>{{ quote.quote }}</h4>
       {% endif %}
       </div>
-      {% if image.image is defined %}
+      {% if image.image is not none %}
       <div class="one-half column" style="margin-top: 25%">
         <img src="data:image/jpeg;base64,{{ image.image | safe }}">
       </div>
