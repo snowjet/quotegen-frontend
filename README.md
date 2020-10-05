@@ -14,9 +14,9 @@ This is a simple frontend that displays famous quotes from a backend Quote Gener
 
 ```bash
 
-oc apply -f ./oc_templates/is_frontend.yaml
-oc apply -f ./oc_templates/svc_frontend.yaml
-oc apply -f ./oc_templates/dc_frontend.yaml
+oc apply -f ./oc_templates/frontend/is_frontend.yaml
+oc apply -f ./oc_templates/frontend/svc_frontend.yaml
+oc apply -f ./oc_templates/frontend/dc_frontend.yaml
 
 oc expose svc/frontend
 
