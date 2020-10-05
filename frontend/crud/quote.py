@@ -29,50 +29,35 @@ def get_quote_simple(url):
 
     try:
         with httpx.Client() as client:
+            
+            logger.info("URL: " + url)
+
             response = client.get(url)
             response.raise_for_status()
-    except httpx.RequestError as exc:
-        logger.error(f"An error occured while requesting {exc.request.url!r}.")
-        return {
-            "name": "error",
-            "quote": f"An error occured while requesting {exc.request.url!r}.",
-        }
-    except httpx.HTTPStatusError as exc:
-        logger.error(
-            f"Error response {exc.response.status_code} while requesting {exc.request.url!r}."
-        )
-        return {"name": "error", "quote": exc}
-    else:
         try:
             json_object = response.json()
             return check_message_validity(json_object)
         except ValueError as e:
-            logger.info("Not Valid JSON")
-            return {"name": "error", "quote": "Not Valid JSON"}
+            error_msg = "Not Valid JSON"
+            logger.error(error_msg)
+            return Quote(name='error', quote=error_msg)
 
-
-async def get_quote_async(url):
-
-    try:
-        with httpx.Client() as client:
-            response = client.get(url)
-            response.raise_for_status()
     except httpx.RequestError as exc:
-        logger.error(f"An error occured while requesting {exc.request.url!r}.")
-        return {
-            "name": "error",
-            "quote": f"An error occured while requesting {exc.request.url!r}.",
-        }
+        error_msg = f"An error occured while requesting {exc.request.url!r}."
+        logger.error(error_msg)
+        return Quote(name='error', quote=error_msg)
+
     except httpx.HTTPStatusError as exc:
-        logger.error(
-            f"Error response {exc.response.status_code} while requesting {exc.request.url!r}."
-        )
-        return {"name": "error", "quote": exc}
-    else:
-        try:
-            json_object = response.json()
-            logger.info("Success!")
-            return json_object
-        except ValueError as e:
-            logger.info("Not Valid JSON")
-            return {"name": "error", "quote": "Not Valid JSON"}
+        error_msg = f"Error response {exc.response.status_code} while requesting {exc.request.url!r}."
+        logger.error(error_msg)
+        return Quote(name='error', quote=error_msg)
+
+    except httpx.HTTPError as exc:
+        error_msg = f"HTTPError Error while requesting {exc.request.url!r}."
+        logger.error(error_msg)
+        return Quote(name='error', quote=error_msg)
+
+    except httpx.InvalidURL as exc:
+        error_msg = f"Error while requesting {exc.request.url!r}."
+        logger.error(error_msg)
+        return Quote(name='error', quote=error_msg)

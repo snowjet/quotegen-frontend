@@ -34,8 +34,10 @@
   <div class="container">
     <div class="row">
       <div class="one-half column" style="margin-top: 25%">
+      {% if quote.name is defined and quote.quote is defined  %}
         <h1>{{ quote.name }}</h1>
         <h4>{{ quote.quote }}</h4>
+      {% endif %}
       </div>
       {% if image.image is defined %}
       <div class="one-half column" style="margin-top: 25%">
