@@ -56,6 +56,8 @@ spec:
           env:
             - name: url_quote_backend
               value: 'http://backend:8080'
+            - name: image_backend_api
+              value: 'http://backend:8080/quote/image'
           resources: {}
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
