@@ -33,7 +33,7 @@ async def get_quote(
 
     image = None
     if quote.name is not None:
-        image = imageCRUD.get_image_simple(quote.name)
+        image = imageCRUD.get_image_simple(str(quote.name))
 
     return templates.TemplateResponse(
         "index.html", {"request": request, "quote": quote, 'image': image}

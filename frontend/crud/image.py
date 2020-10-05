@@ -11,16 +11,17 @@ class Image(BaseModel):
     name: Optional[str] = None
     detail: Optional[str] = None
 
-def get_image_simple(url):
+def get_image_simple(name):
 
     try:
         url = settings.image_backend_api
 
         with httpx.Client() as client:
             
-            logger.info("URL: " + url)
+            logger.debug("URL: " + url)
+            logger.debug("Name: " + name)
 
-            response = client.get(url)
+            response = client.get(url, params={'name': name})
             response.raise_for_status()
         try:
             json_object = response.json()
