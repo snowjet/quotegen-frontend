@@ -34,7 +34,6 @@ spec:
           - frontend
         from:
           kind: ImageStreamTag
-          namespace: quote-pipeline
           name: 'frontend:latest'
     - type: ConfigChange
   replicas: 1
