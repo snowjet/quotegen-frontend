@@ -13,13 +13,15 @@ This is a simple frontend that displays famous quotes from a backend Quote Gener
 ## create application with postgres backend
 
 ```bash
+export PROJECT=<namespace>
 
-oc apply -f ./oc_templates/frontend/is_frontend.yaml
-oc apply -f ./oc_templates/frontend/svc_frontend.yaml
-oc apply -f ./oc_templates/frontend/dc_frontend.yaml
+oc new-project ${PROJECT}
 
-oc expose svc/frontend
+oc apply -f ./quotegen-frontend/oc_templates/frontend/is_frontend.yml  -n ${PROJECT}
+oc apply -f ./quotegen-frontend/oc_templates/frontend/svc_frontend.yml -n ${PROJECT}
+oc apply -f ./quotegen-frontend/oc_templates/frontend/dc_frontend.yml -n ${PROJECT}
 
+oc expose svc/frontend -n ${PROJECT}
 ```
 
 ## Backend Response Example:
