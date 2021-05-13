@@ -34,7 +34,7 @@ spec:
           - frontend
         from:
           kind: ImageStreamTag
-          name: 'frontend:latest'
+          name: 'frontend:v1.0'
     - type: ConfigChange
   replicas: 1
   revisionHistoryLimit: 10
